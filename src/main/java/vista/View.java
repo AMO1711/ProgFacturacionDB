@@ -29,7 +29,7 @@ public class View {
     }
 
     public void mostrarMenuClientes(){
-        Menu submenuClientes = (Menu) menuPrincipal.getOpciones().getFirst();
+        Menu submenuClientes = (Menu) menuPrincipal.getOpciones().get(0);
         int opcion;
 
         submenuClientes.addOpciones(new Menu("Alta de un cliente"), () -> altaCliente());
