@@ -1,48 +1,111 @@
 package modelo;
 
+import modelo.enums.EstadoFactura;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Factura {
-    private final Model modelo;
-    private String fecha, nifCliente;
-    private int numFactura;
-    private double precioBase, precioIva, precioTotal;
-    private LineaFactura[] lineaFacturas = new LineaFactura[10];
+@Entity
+@Table(name = "Facturas")
+public class Factura implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Factura(Model modelo, int numFactura, String fecha, String nifCliente, double precioB, double precioIva, double precioT, ArrayList<Integer> cantidadArticulo, ArrayList<String> nombreArticulo){
-        this.modelo = modelo;
-        this.nifCliente = nifCliente;
+    @Column(nullable = false, unique = true)
+    private Integer numeroFactura;
+
+    private LocalDateTime fecha;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoFactura estado;
+
+    private Double totalBase;
+    private Double totalIva;
+    private Double totalFactura;
+
+    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LineaFactura> lineas = new ArrayList<>();
+
+    public Factura() {
+        this.fecha = LocalDateTime.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getNumeroFactura() {
+        return numeroFactura;
+    }
+
+    public void setNumeroFactura(Integer numeroFactura) {
+        this.numeroFactura = numeroFactura;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
-        this.numFactura = numFactura;
-        this.precioBase = precioB;
-        this.precioIva = precioIva;
-        this.precioTotal = precioT;
-        inicializarFactura(cantidadArticulo, nombreArticulo);
     }
 
-    public String mostrar (){
-        String mensaje = "Número de factura: " + numFactura + "\nCliente: " + nifCliente + "\nFecha: " + fecha + "\nArtículos:\n";
-
-        for (LineaFactura i: lineaFacturas){
-            mensaje += "\t" + i.mostrar() + "\n";
-        }
-
-        mensaje += "Precio base: " + precioBase + "\nPrecio IVA: " + precioIva + "\nPrecio total: " + precioTotal;
-
-        return mensaje;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public double buscarPrecio(String nombreArticulo){
-        return  modelo.buscarPrecio(nombreArticulo);
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public double buscarIva(String nombreArticulo){
-        return modelo.buscarIva(nombreArticulo);
+    public EstadoFactura getEstado() {
+        return estado;
     }
 
-    private void inicializarFactura(ArrayList<Integer> cantidadArticulo, ArrayList<String> nombreArticulo){
-        for (int i = 0; i < 10; i++) {
-            lineaFacturas[i] = new LineaFactura(this, cantidadArticulo.get(i), nombreArticulo.get(i));
-        }
+    public void setEstado(EstadoFactura estado) {
+        this.estado = estado;
+    }
+
+    public Double getTotalBase() {
+        return totalBase;
+    }
+
+    public void setTotalBase(Double totalBase) {
+        this.totalBase = totalBase;
+    }
+
+    public Double getTotalIva() {
+        return totalIva;
+    }
+
+    public void setTotalIva(Double totalIva) {
+        this.totalIva = totalIva;
+    }
+
+    public Double getTotalFactura() {
+        return totalFactura;
+    }
+
+    public void setTotalFactura(Double totalFactura) {
+        this.totalFactura = totalFactura;
+    }
+
+    public List<LineaFactura> getLineas() {
+        return lineas;
+    }
+
+    public void setLineas(List<LineaFactura> lineas) {
+        this.lineas = lineas;
     }
 }

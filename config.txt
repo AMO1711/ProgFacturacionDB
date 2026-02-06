@@ -1,0 +1,4 @@
+empresa = Mi Empresa S.L.
+direccion = Calle Falsa 123, Madrid
+telefono = 912345678
+inicio_factura = 12300

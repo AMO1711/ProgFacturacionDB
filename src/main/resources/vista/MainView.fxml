@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.Controller">
+    <left>
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #eeeeee;">
+            <Label fx:id="lblNombreEmpresa" style="-fx-font-weight: bold;" text="Empresa" />
+            <Button onAction="#abrirSeccionClientes" text="Clientes" maxWidth="Infinity"/>
+            <Button onAction="#abrirSeccionArticulos" text="Artículos" maxWidth="Infinity"/>
+            <Button onAction="#abrirSeccionFacturas" text="Facturas" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="areaContenido">
+            <Label text="Seleccione una opción del menú lateral" />
+        </StackPane>
+    </center>
+    <bottom>
+        <Label fx:id="lblInfoEstado" text="Estado: Listo" style="-fx-padding: 5;" />
+    </bottom>
+</BorderPane>

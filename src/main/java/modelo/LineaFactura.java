@@ -1,29 +1,74 @@
 package modelo;
 
-public class LineaFactura {
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "LineasFactura")
+public class LineaFactura implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "factura_id", nullable = false)
     private Factura factura;
-    private String nombreArticulo;
-    private int cantidad;
-    private double precioUnitario, iva;
 
-    public LineaFactura(Factura factura, int cantidad, String nombreArticulo){
+    @ManyToOne
+    @JoinColumn(name = "articulo_id", nullable = false)
+    private Articulo articulo;
+
+    private Integer cantidad;
+    private Double precioVentaUnitario;
+    private Integer ivaAplicado;
+
+    public LineaFactura() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
         this.factura = factura;
-        this.nombreArticulo = nombreArticulo;
+    }
+
+    public Articulo getArticulo() {
+        return articulo;
+    }
+
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
-        this.precioUnitario = buscarPrecio(nombreArticulo);
-        this.iva = buscarIva(nombreArticulo);
     }
 
-    public String mostrar(){
-        return "Nombre del artículo: " + nombreArticulo + "\nCantidad: " + cantidad + "\nPrecio unitario: "
-                + precioUnitario + "\nIVA: " + iva + "%";
+    public Double getPrecioVentaUnitario() {
+        return precioVentaUnitario;
     }
 
-    private double buscarPrecio(String nombreArticulo){
-        return factura.buscarPrecio(nombreArticulo);
+    public void setPrecioVentaUnitario(Double precioVentaUnitario) {
+        this.precioVentaUnitario = precioVentaUnitario;
     }
 
-    private double buscarIva(String nombreArticulo){
-        return factura.buscarIva(nombreArticulo);
+    public Integer getIvaAplicado() {
+        return ivaAplicado;
+    }
+
+    public void setIvaAplicado(Integer ivaAplicado) {
+        this.ivaAplicado = ivaAplicado;
     }
 }
