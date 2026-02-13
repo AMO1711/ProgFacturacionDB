@@ -13,7 +13,6 @@ public class Validaciones {
     public static boolean validarCuentaBancaria(String ccc) {
         // Validación básica de 20 dígitos (Formato español antiguo)
         if (ccc == null || !ccc.matches("^[0-9]{20}$")) return false;
-        // Aquí se puede implementar el algoritmo de Dígitos de Control (posiciones 8 y 9)
         return true;
     }
 }

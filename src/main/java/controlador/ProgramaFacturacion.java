@@ -17,7 +17,6 @@ public class ProgramaFacturacion extends Application {
             ConfigService config = ConfigService.getInstance();
 
             // 2. Cargamos la vista principal
-                // Nota: El archivo FXML debería estar en src/main/resources/vista/MainView.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/MainView.fxml"));
             Parent root = loader.load();
 

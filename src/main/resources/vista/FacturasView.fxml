@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="modelo.view_controllers.FacturasController">
+    <tabs>
+        <Tab text="Crear Factura/Albaran">
+            <VBox spacing="10" style="-fx-padding: 15;">
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Label text="Siguiente Numero: "/>
+                    <Label fx:id="lblNumFactura" style="-fx-font-weight: bold;"/>
+                    <Separator orientation="VERTICAL" />
+                    <DatePicker fx:id="dpFecha" promptText="Fecha documento"/>
+                </HBox>
+
+                <TitledPane text="Cliente" collapsible="false">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="txtBusquedaCliente" promptText="NIF Cliente" />
+                        <Button text="Cargar Cliente" onAction="#buscarClienteFactura"/>
+                        <Label fx:id="lblClienteSeleccionado" text="Sin seleccion" style="-fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    </HBox>
+                </TitledPane>
+
+                <TitledPane text="Lineas de Detalle" collapsible="false">
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="txtCodArticulo" promptText="Codigo Articulo" prefWidth="120"/>
+                        <TextField fx:id="txtCantidad" text="1" prefWidth="50"/>
+                        <Button text="Añadir Articulo" onAction="#aniadirLinea"/>
+                        <Button text="Quitar Fila" onAction="#quitarLinea" />
+                    </HBox>
+                </TitledPane>
+
+                <TableView fx:id="tablaLineas" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colCodArt" text="Codigo" prefWidth="90"/>
+                        <TableColumn fx:id="colNombreArt" text="Descripcion" prefWidth="250"/>
+                        <TableColumn fx:id="colCant" text="Cant." prefWidth="60"/>
+                        <TableColumn fx:id="colPrecio" text="Precio" prefWidth="90"/>
+                        <TableColumn fx:id="colIva" text="IVA" prefWidth="70"/>
+                        <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="100"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="20" alignment="TOP_RIGHT" style="-fx-background-color: #f4f4f4; -fx-padding: 10;">
+                    <VBox alignment="CENTER_RIGHT">
+                        <Label text="Base Imponible:"/><Label text="IVA Total:"/>
+                        <Label text="TOTAL:" style="-fx-font-weight: bold;"/>
+                    </VBox>
+                    <VBox alignment="CENTER_RIGHT">
+                        <Label fx:id="lblBaseImponible" text="0.00 €"/><Label fx:id="lblIvaTotal" text="0.00 €"/>
+                        <Label fx:id="lblTotalFactura" text="0.00 €" style="-fx-font-weight: bold; -fx-text-fill: #c0392b;"/>
+                    </VBox>
+                </HBox>
+                <Button text="GUARDAR DOCUMENTO" onAction="#guardarFactura" maxWidth="Infinity" style="-fx-padding: 10; -fx-background-color: #34495e; -fx-text-fill: white;"/>
+            </VBox>
+        </Tab>
+
+        <Tab text="Buscar Factura">
+            <VBox spacing="15" style="-fx-padding: 20;">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Numero de Documento:"/>
+                    <TextField fx:id="txtBuscaNumDetalle" prefWidth="100"/>
+                    <Button text="Ver Detalles" onAction="#buscarFacturaDetalle"/>
+                </HBox>
+                <Separator/>
+                <VBox fx:id="areaDetalleBusqueda" spacing="10" visible="false">
+                    <Label fx:id="lblDetalleCabecera" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+                    <TableView fx:id="tablaLineasConsulta" prefHeight="300">
+                        <columns>
+                            <TableColumn fx:id="colConsCod" text="Codigo" prefWidth="100"/>
+                            <TableColumn fx:id="colConsDesc" text="Descripcion" prefWidth="300"/>
+                            <TableColumn fx:id="colConsCant" text="Cant" prefWidth="80"/>
+                            <TableColumn fx:id="colConsPrecio" text="Precio" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+        </Tab>
+
+        <Tab text="Listado General" onSelectionChanged="#cargarListado">
+            <VBox spacing="10" style="-fx-padding: 15;">
+                <TableView fx:id="tablaListado" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colListNum" text="Numero" prefWidth="80"/>
+                        <TableColumn fx:id="colListFecha" text="Fecha" prefWidth="110"/>
+                        <TableColumn fx:id="colListCliente" text="Cliente" prefWidth="200"/>
+                        <TableColumn fx:id="colListTotal" text="Importe Total" prefWidth="110"/>
+                        <TableColumn fx:id="colListEstado" text="Estado" prefWidth="130"/>
+                    </columns>
+                </TableView>
+                <Button text="Actualizar Lista" onAction="#cargarListado" maxWidth="Infinity"/>
+            </VBox>
+        </Tab>
+
+        <Tab text="Gestion de Albaranes">
+            <VBox spacing="20" style="-fx-padding: 20;">
+                <Label text="Convertir Albaran a Factura Emitida" style="-fx-font-weight: bold;"/>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Numero Albaran:"/>
+                    <TextField fx:id="txtBuscaNumGestion" prefWidth="100"/>
+                    <Button text="Comprobar Estado" onAction="#buscarFacturaGestion"/>
+                </HBox>
+                <VBox fx:id="areaAccionGestion" spacing="15" visible="false" style="-fx-background-color: #fdfdfd; -fx-padding: 20; -fx-border-color: #cccccc;">
+                    <Label fx:id="lblGestionInfo" text="Cliente: "/>
+                    <Label fx:id="lblGestionEstado" text="Estado: " style="-fx-text-fill: #e67e22; -fx-font-weight: bold;"/>
+                    <Button fx:id="btnEmitir" text="EMITIR FACTURA" onAction="#emitirFacturaActual" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                </VBox>
+            </VBox>
+        </Tab>
+    </tabs>
+</TabPane>

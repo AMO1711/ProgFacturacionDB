@@ -14,9 +14,10 @@ public class Factura implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "numero_factura", nullable = false, unique = true)
     private Integer numeroFactura;
 
+    @Column(nullable = false)
     private LocalDateTime fecha;
 
     @ManyToOne
@@ -26,11 +27,16 @@ public class Factura implements Serializable {
     @Enumerated(EnumType.STRING)
     private EstadoFactura estado;
 
-    private Double totalBase;
-    private Double totalIva;
-    private Double totalFactura;
+    @Column(name = "total_base")
+    private Double totalBase = 0.0;
 
-    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(name = "total_iva")
+    private Double totalIva = 0.0;
+
+    @Column(name = "total_factura")
+    private Double totalFactura = 0.0;
+
+    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<LineaFactura> lineas = new ArrayList<>();
 
     public Factura() {

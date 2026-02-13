@@ -209,6 +209,4 @@ public class Cliente implements Serializable {
         this.imagen = imagen;
     }
 
-    // Aquí irían los métodos de validación que comentamos:
-    // validarDNI() y validarCuenta()
 }

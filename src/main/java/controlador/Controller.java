@@ -22,8 +22,8 @@ public class Controller {
         lblNombreEmpresa.setText(ConfigService.getInstance().getNombreEmpresa());
         lblInfoEstado.setText("Bienvenido al sistema. Use el menú lateral para navegar.");
 
-        // Opcional: Cargar la vista de facturas por defecto al abrir TODO descomentar
-        //abrirSeccionFacturas();
+        // Opcional: Cargar la vista de facturas por defecto al abrir
+        abrirSeccionClientes();
     }
 
     @FXML

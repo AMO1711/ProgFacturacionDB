@@ -2,6 +2,7 @@ package modelo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import modelo.enums.TipoIVA;
 
 @Entity
 @Table(name = "LineasFactura")
@@ -19,56 +20,31 @@ public class LineaFactura implements Serializable {
     private Articulo articulo;
 
     private Integer cantidad;
+
+    @Column(name = "precio_venta_unitario")
     private Double precioVentaUnitario;
-    private Integer ivaAplicado;
+
+    @Column(name = "iva_aplicado")
+    @Enumerated(EnumType.STRING)
+    private TipoIVA ivaAplicado;
 
     public LineaFactura() {}
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Factura getFactura() { return factura; }
+    public void setFactura(Factura factura) { this.factura = factura; }
 
-    public Factura getFactura() {
-        return factura;
-    }
+    public Articulo getArticulo() { return articulo; }
+    public void setArticulo(Articulo articulo) { this.articulo = articulo; }
 
-    public void setFactura(Factura factura) {
-        this.factura = factura;
-    }
+    public Integer getCantidad() { return cantidad; }
+    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
 
-    public Articulo getArticulo() {
-        return articulo;
-    }
+    public Double getPrecioVentaUnitario() { return precioVentaUnitario; }
+    public void setPrecioVentaUnitario(Double precioVentaUnitario) { this.precioVentaUnitario = precioVentaUnitario; }
 
-    public void setArticulo(Articulo articulo) {
-        this.articulo = articulo;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public Double getPrecioVentaUnitario() {
-        return precioVentaUnitario;
-    }
-
-    public void setPrecioVentaUnitario(Double precioVentaUnitario) {
-        this.precioVentaUnitario = precioVentaUnitario;
-    }
-
-    public Integer getIvaAplicado() {
-        return ivaAplicado;
-    }
-
-    public void setIvaAplicado(Integer ivaAplicado) {
-        this.ivaAplicado = ivaAplicado;
-    }
+    public TipoIVA getIvaAplicado() { return ivaAplicado; }
+    public void setIvaAplicado(TipoIVA ivaAplicado) { this.ivaAplicado = ivaAplicado; }
 }
